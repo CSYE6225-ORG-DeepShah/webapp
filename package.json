@@ -1,0 +1,38 @@
+{
+    "name": "assignment1",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+      "test": "npx newman run ./test/collection.json --reporters cli,junit --reporter-junit-export integration_report.xml --insecure",
+      "start": "nodemon server.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "bcrypt": "^5.1.1",
+      "body-parser": "^1.20.2",
+      "chai-http": "^4.4.0",
+      "cors": "^2.8.5",
+      "csv-parser": "^3.0.0",
+      "express": "^4.18.2",
+      "express-basic-auth": "^1.2.1",
+      "jsonwebtoken": "^9.0.2",
+      "mysql2": "^3.6.1",
+      "nocache": "^4.0.0",
+      "nodemon": "^3.0.1",
+      "sequelize": "^6.33.0"
+    },
+    "devDependencies": {
+      "@types/jest": "^29.5.5",
+      "@types/supertest": "^2.0.14",
+      "chai": "^4.3.10",
+      "jest": "^29.7.0",
+      "mocha": "^10.2.0",
+      "supertest": "^6.3.3",
+      "ts-jest": "^29.1.1"
+    }
+  }
+  
+  
