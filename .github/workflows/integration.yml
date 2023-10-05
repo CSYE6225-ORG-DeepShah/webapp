@@ -40,10 +40,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run the server
-        run: |
-          npm start
-
+      - name: Start Node.js app
+        run: npm start
+            
       - name: Test the server
         run: |
           npm test
