@@ -17,7 +17,10 @@ router.use((req,res,next) => {
 router.get('/healthz',  async (req,res) => {
     try{
         await sequelize.authenticate();
+
         res.status(400).json();
+     
+
         console.log('Connection has been established successfully');
     } catch(err) {
         res.status(503).json();
