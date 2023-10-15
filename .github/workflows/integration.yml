@@ -1,12 +1,11 @@
-
 name: Webapp-CI
+
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-  connect-remote:
     runs-on: ubuntu-latest
 
     services:
@@ -28,16 +27,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 18
-     
+
       - name: Install dependencies
         run: npm install
 
-      # - name: Run a background task
-      #   run: nohup npm start &
-
-      - name: Run a background task
-        run: nohup npm start &
-
       - name: Run tests
-        run: npm test
-
+        run: nohup npm start && npm test
