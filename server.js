@@ -31,15 +31,18 @@ app.use((req,res,next) => {
 
 
 
+
 app.use('/', healthRoute);
 app.use('/v1/assignments', assignmentRoute);
 
 // Define a relationship between the User and Assignment models
+
 User.hasMany(Assignment, { as: 'assignment' });
 Assignment.belongsTo(User, {
     foreignKey: 'userId',
     as: 'user',
 })
+
 
 // Sync the Sequelize database and start the server
 sequelize.sync().then((result) => {

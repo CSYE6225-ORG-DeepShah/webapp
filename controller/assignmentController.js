@@ -5,6 +5,7 @@ const createAssignment = async (req, res) => {
   try {
     const authUser = req.user;
 
+
     // Check if the request body contains unexpected fields
     const allowedFields = ['name', 'points', 'no_of_attempts', 'deadline'];
     const unexpectedFields = Object.keys(req.body).filter(field => !allowedFields.includes(field));
@@ -20,11 +21,13 @@ const createAssignment = async (req, res) => {
     res.status(201).json(assignment);
     console.log(assignment);
   } catch (err) {
+
     if(err.name === 'SequelizeValidationError') {
       res.status(400).json({ error: 'Validation error' });
     } else {
       res.status(500).json({ error: 'Error creating assignment' });
     }
+
   }
 };
 
@@ -83,6 +86,7 @@ const updateAssignment = async (req, res) => {
       }
 
       // Update the assignment with the provided data
+
       try {
 
         // Check if the request body contains unexpected fields
@@ -100,7 +104,7 @@ const updateAssignment = async (req, res) => {
       } catch (validationErr) {
         res.status(400).json({ error: 'Validation error', details: validationErr.errors });
       }
-    
+
       res.status(204).send();
 
     } catch(err) {
