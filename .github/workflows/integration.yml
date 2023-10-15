@@ -1,5 +1,5 @@
-name: Webapp-CI
 
+name: Webapp-CI
 on:
   pull_request:
     branches: [ main ]
@@ -35,7 +35,9 @@ jobs:
       # - name: Run a background task
       #   run: nohup npm start &
 
-      - name: Run tests
-        run: nohup npm start && npm test
+      - name: Run a background task
+        run: nohup npm start &
 
-#
+      - name: Run tests
+        run: npm test
+
