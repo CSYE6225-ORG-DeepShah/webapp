@@ -5,14 +5,29 @@ const createAssignment = async (req, res) => {
   try {
     const authUser = req.user;
 
+
+    // Check if the request body contains unexpected fields
+    const allowedFields = ['name', 'points', 'no_of_attempts', 'deadline'];
+    const unexpectedFields = Object.keys(req.body).filter(field => !allowedFields.includes(field));
+
+    if (unexpectedFields.length > 0) {
+      return res.status(400).json({ error: "Invalid fields in request body", unexpectedFields });
+    }
+
     const { name, points, no_of_attempts, deadline } = req.body;
-  
+
     const assignment = await Assignment.create({ name, points, no_of_attempts, deadline, userId: authUser.userID});
 
     res.status(201).json(assignment);
     console.log(assignment);
   } catch (err) {
-    res.status(500).json({ error: 'Error creating assignment' });
+
+    if(err.name === 'SequelizeValidationError') {
+      res.status(400).json({ error: 'Validation error' });
+    } else {
+      res.status(500).json({ error: 'Error creating assignment' });
+    }
+
   }
 };
 
@@ -71,15 +86,31 @@ const updateAssignment = async (req, res) => {
       }
 
       // Update the assignment with the provided data
-      await assignment.update(req.body);
 
+      try {
+
+        // Check if the request body contains unexpected fields
+        const allowedFields = ['name', 'points', 'no_of_attempts', 'deadline'];
+        const unexpectedFields = Object.keys(req.body).filter(field => !allowedFields.includes(field));
+
+        if (unexpectedFields.length > 0) {
+          return res.status(400).json({ error: "Invalid fields in request body", unexpectedFields });
+        }
+
+        await assignment.update(req.body, {
+          fields: allowedFields, // Specify which fields to update
+          validate: true, // Enable validation checks
+        });
+      } catch (validationErr) {
+        res.status(400).json({ error: 'Validation error', details: validationErr.errors });
+      }
+ 
       res.status(204).send();
 
     } catch(err) {
       if (!req.user) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
-      console.error(err);
     }
 };
 

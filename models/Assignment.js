@@ -31,6 +31,9 @@ const Assignment = sequelize.define('assignment', {
     },
 }, {
     freezeTableName: true,
+    createdAt: 'assignment_created',
+    updatedAt: 'assignment_updated',
+
 });
 
 
