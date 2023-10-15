@@ -28,6 +28,8 @@ const User = sequelize.define('user', {
     },
 }, {
     freezeTableName: true,
+    createdAt: 'account_created',
+    updatedAt: 'account_updated',
 });
 
 module.exports = User;

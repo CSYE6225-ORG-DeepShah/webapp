@@ -1,10 +1,11 @@
-name: CI
+name: Webapp-CI
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
+  build:
   connect-remote:
     runs-on: ubuntu-latest
 
@@ -31,10 +32,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run a background task
-        run: nohup npm start &
+      # - name: Run a background task
+      #   run: nohup npm start &
 
       - name: Run tests
-        run: npm test
+        run: nohup npm start && npm test
 
 #
