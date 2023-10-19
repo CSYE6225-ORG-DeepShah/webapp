@@ -37,5 +37,8 @@ jobs:
       - name: Packer Intialization
         run : packer init .
 
-      - name: Check build of packer
+      - name: Check format of the packer
+        run: packer fmt aws-ami.pkr.hcl
+
+      - name: Check validation of packer
         run: packer build -var 'MY_PASSWORD=${{ secrets.PASSWORD }}' -var 'MY_DATABASE=${{ secrets.DATABASE }}' -var-file="variables.pkrvars.hcl" aws-ami.pkr.hcl
