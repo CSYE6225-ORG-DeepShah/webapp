@@ -101,9 +101,6 @@ const updateAssignment = async (req, res) => {
         res.status(400).json({ error: 'Validation error', details: validationErr.errors });
       }
     
-
-      
-
       res.status(204).send();
 
     } catch(err) {

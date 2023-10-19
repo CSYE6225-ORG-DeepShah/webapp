@@ -13,8 +13,8 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ROOT_PASSWORD: "shahdeep"
-          MYSQL_DATABASE: "Cloud"
+          MYSQL_ROOT_PASSWORD: ${{ secrets.PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.DATABASE }}
           MYSQL_ROOT_HOST: "%"
         ports:
           - 3306:3306
@@ -34,3 +34,25 @@ jobs:
 
       - name: Run tests
         run: nohup npm start & npm test
+
+      - name: Zipping all files
+        run: zip -r webapp.zip .
+
+      - name: Install Packer
+        run: |
+          wget https://releases.hashicorp.com/packer/1.7.2/packer_1.7.2_linux_amd64.zip
+          unzip -j packer_1.7.2_linux_amd64.zip -d /tmp
+          chmod +x /tmp/packer
+          sudo mv /tmp/packer /usr/local/bin/
+          packer version
+
+      - name: Packer Intialization
+        run : packer init .
+
+      - name: Check format of the packer
+        run: packer fmt aws-ami.pkr.hcl
+
+      - name: Check validation of packer
+        run: packer validate -var 'MY_PASSWORD=${{ secrets.PASSWORD }}' -var 'MY_DATABASE=${{ secrets.DATABASE }}' -var-file="variables.pkrvars.hcl" aws-ami.pkr.hcl 
+
+#
