@@ -49,6 +49,7 @@ jobs:
       - name: Packer Intialization
         run : packer init .
 
+
       - name: Check format of the packer
         run: packer fmt aws-ami.pkr.hcl
 
