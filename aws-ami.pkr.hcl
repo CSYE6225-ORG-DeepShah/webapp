@@ -149,15 +149,15 @@ build {
     "${var.build_source}"
   ]
 
-  provisioner "file" {
-    source      = "${var.zip_file_src}"
-    destination = "${var.zip_file_dest}"
-  }
+  // provisioner "file" {
+  //   source      = "${var.zip_file_src}"
+  //   destination = "${var.zip_file_dest}"
+  // }
 
-  provisioner "file" {
-    source      = "${var.csv_file_src}"
-    destination = "${var.csv_file_dest}"
-  }
+  // provisioner "file" {
+  //   source      = "${var.csv_file_src}"
+  //   destination = "${var.csv_file_dest}"
+  // }
 
   provisioner "shell" {
     environment_vars = [
