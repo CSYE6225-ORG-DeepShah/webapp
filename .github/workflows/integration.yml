@@ -47,7 +47,7 @@ jobs:
           packer version
 
       - name: Packer Intialization
-        run : packer init .
+        run : cd packer & packer init .
 
       - name: Check format of the packer
         run: packer fmt packer/aws-ami.pkr.hcl
