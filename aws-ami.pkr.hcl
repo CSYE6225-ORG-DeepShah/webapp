@@ -88,10 +88,6 @@ variable "volume_type" {
   default = null
 }
 
-variable "build_source" {
-  type    = string
-  default = null
-}
 
 variable "script_path" {
   type    = string
@@ -146,18 +142,18 @@ source "amazon-ebs" "my-ami-debian12" {
 
 build {
   sources = [
-    "${var.build_source}"
+    "source.amazon-ebs.my-ami-debian12"
   ]
 
-  // provisioner "file" {
-  //   source      = "${var.zip_file_src}"
-  //   destination = "${var.zip_file_dest}"
-  // }
+  provisioner "file" {
+    source      = "${var.zip_file_src}"
+    destination = "${var.zip_file_dest}"
+  }
 
-  // provisioner "file" {
-  //   source      = "${var.csv_file_src}"
-  //   destination = "${var.csv_file_dest}"
-  // }
+  provisioner "file" {
+    source      = "${var.csv_file_src}"
+    destination = "${var.csv_file_dest}"
+  }
 
   provisioner "shell" {
     environment_vars = [
