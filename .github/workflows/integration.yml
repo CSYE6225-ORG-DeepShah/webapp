@@ -51,6 +51,7 @@ jobs:
 
       - name: Check format of the packer
         run: packer fmt packer/aws-ami.pkr.hcl
+        
 
       - name: Check validation of packer
         run: packer validate -var 'MY_PASSWORD=${{ secrets.PASSWORD }}' -var 'MY_DATABASE=Cloud' -var-file="packer/variables.pkrvars.hcl" packer/aws-ami.pkr.hcl
