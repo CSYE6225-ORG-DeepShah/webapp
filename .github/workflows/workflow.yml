@@ -16,6 +16,10 @@ jobs:
           touch .env
           echo pd=${{ secrets.PASSWORD }}>> .env
           echo database=${{ secrets.DATABASE }} >> .env
+          echo user=${{ secrets.USER }} >> .env
+
+      - name: Run tests
+        run: nohup npm start & npm test
 
       - name: Zipping all files
         run: zip -r webapp.zip .
@@ -39,4 +43,4 @@ jobs:
         run : packer init .
 
       - name: Check build of packer
-        run: packer build -var 'MY_PASSWORD=${{ secrets.PASSWORD }}' -var 'MY_DATABASE=${{ secrets.DATABASE }}' -var-file="variables.pkrvars.hcl" aws-ami.pkr.hcl
+        run: packer build -var 'MY_PASSWORD=${{ secrets.PASSWORD }}' -var 'MY_DATABASE=${{ secrets.DATABASE }}' -var 'MY_USER=${{ secrets.USER }}' -var-file="variables.pkrvars.hcl" aws-ami.pkr.hcl

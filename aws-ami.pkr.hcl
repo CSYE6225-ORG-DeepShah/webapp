@@ -17,6 +17,11 @@ variable "MY_DATABASE" {
   default = "${env("DATABASE")}"
 }
 
+variable "MY_USER" {
+  type    = string
+  default = "${env("USER")}"
+}
+
 variable "aws_regions" {
   type    = string
   default = null
@@ -120,7 +125,7 @@ source "amazon-ebs" "my-ami-debian12" {
   ami_name        = "${var.ami_name}${formatdate("YYYY_MM_DD_hh_mm_ss", timestamp())}"
   ami_description = "${var.ami_description}"
   ami_users       = ["${var.ami_devaccount}", "${var.ami_demoaccount}"]
-  ami_regions =  "${var.ami_regions}"
+  ami_regions     = "${var.ami_regions}"
 
 
   aws_polling {
@@ -160,7 +165,8 @@ build {
       "DEBIAN_FRONTEND=noninteractive",
       "CHECKPOINT_DISABLE=1",
       "MY_DATABASE=${var.MY_DATABASE}",
-      "MY_PASSWORD=${var.MY_PASSWORD}"
+      "MY_PASSWORD=${var.MY_PASSWORD}",
+      "MY_USER=${var.MY_USER}",
     ]
     script = "${var.script_path}"
   }

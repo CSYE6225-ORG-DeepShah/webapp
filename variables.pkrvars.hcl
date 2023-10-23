@@ -1,5 +1,5 @@
 aws_regions = "us-east-1"
-ami_regions = ["us-east-1", "us-west-1"]
+ami_regions = ["us-east-1"]
 ami_description = "AMI for CSYE 6225"
 ami_devaccount = "859694155826"
 ami_demoaccount = "221741539694"
