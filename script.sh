@@ -18,7 +18,10 @@ MY_DATABASE=$MY_DATABASE
 # Define the database password
 MY_PASSWORD=$MY_PASSWORD
 
+MY_USER=$MY_USER
+
 # Secure MySQL installation by setting the root password, removing anonymous users, etc.
+
 sudo mysql_secure_installation <<EOF
 
 y
@@ -30,15 +33,18 @@ y
 y
 EOF
 
-if sudo mariadb <<MYSQL_SCRIPT
-CREATE DATABASE IF NOT EXISTS $MY_DATABASE;
-MYSQL_SCRIPT
+
+if sudo mysql <<EOF
+CREATE DATABASE $MY_DATABASE;
+GRANT ALL PRIVILEGES ON $MY_DATABASE.* TO '$MY_USER'@'localhost' IDENTIFIED BY '$MY_PASSWORD';
+FLUSH PRIVILEGES;
+exit
+EOF
 then
   echo "Database $MY_DATABASE created successfully."
 else
   echo "Failed to create database $MY_DATABASE."
 fi
-
 
 sudo mkdir deepshah
 
@@ -50,8 +56,13 @@ cd deepshah
 
 sudo unzip -o webapp.zip
 
-sudo npm i
+sudo npm cache clean --force
 
+sudo npm install
 
+sudo rm -rf node_modules
+sudo rm package-lock.json
 
+sudo npm install
 
+sudo npm install bcrypt@latest --save

@@ -1,5 +1,5 @@
 aws_regions = "us-east-1"
-ami_regions = ["us-east-1", "us-west-1"]
+ami_regions = ["us-east-1"]
 ami_description = "AMI for CSYE 6225"
 ami_devaccount = "859694155826"
 ami_demoaccount = "221741539694"
@@ -17,6 +17,8 @@ zip_file_src = "webapp.zip"
 zip_file_dest = "/home/admin/webapp.zip"
 csv_file_src = "users.csv"
 csv_file_dest = "/home/admin/users.csv"
+#
+
 
 
 

@@ -21,6 +21,10 @@ app.use((req,res,next) => {
     //     return res.status(400).json();
     // }
 
+    if(req.method === 'PATCH') {
+        return res.status(405).json();
+    }
+
     if (req.method === 'GET' && (Object.keys(req.query).length > 0 || req.headers['content-length'] || Object.keys(req.body).length > 0)) {
         // Return a 400 Bad Request if query parameters or request/response body are present
         return res.status(400).json();
