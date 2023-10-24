@@ -116,7 +116,7 @@ variable "csv_file_dest" {
 
 
 source "amazon-ebs" "my-ami-debian12" {
-  region          = "${var.aws_regionss}"
+  region          = "${var.aws_regions}"
   ami_name        = "${var.ami_name}${formatdate("YYYY_MM_DD_hh_mm_ss", timestamp())}"
   ami_description = "${var.ami_description}"
   ami_users       = ["${var.ami_devaccount}", "${var.ami_demoaccount}"]
