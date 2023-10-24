@@ -50,6 +50,8 @@ sudo mv /home/admin/webapp.zip /home/admin/deepshah/webapp.zip
 
 sudo mv /home/admin/users.csv /home/admin/deepshah/users.csv
 
+cd deepshah
+
 sudo unzip -o webapp.zip
 
 sudo npm cache clean --force
