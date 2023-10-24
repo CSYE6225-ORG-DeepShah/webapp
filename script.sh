@@ -20,7 +20,8 @@ MY_PASSWORD=$MY_PASSWORD
 
 MY_USER=$MY_USER
 
-Secure MySQL installation by setting the root password, removing anonymous users, etc.
+# Secure MySQL installation by setting the root password, removing anonymous users, etc.
+
 sudo mysql_secure_installation <<EOF
 
 y
@@ -31,6 +32,7 @@ y
 y
 y
 EOF
+
 
 if sudo mysql <<EOF
 CREATE DATABASE $MY_DATABASE;
@@ -64,10 +66,3 @@ sudo rm package-lock.json
 sudo npm install
 
 sudo npm install bcrypt@latest --save
-
-
-
-
-
-
-
