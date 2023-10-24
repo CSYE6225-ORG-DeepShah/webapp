@@ -7,7 +7,7 @@ packer {
   }
 }
 
-variable "MY_PASSWORD" {
+variable "MY_PASSWORD"   {
   type    = string
   default = "${env("PASSWORD")}"
 }
