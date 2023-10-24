@@ -9,17 +9,17 @@ packer {
 
 variable "MY_PASSWORD" {
   type    = string
-  default = "${env("PASSWORD")}"
+  default = "${ env("PASSWORD") }"
 }
 
 variable "MY_DATABASE" {
   type    = string
-  default = "${env("DATABASE")}"
+  default = "${ env("DATABASE") }"
 }
 
 variable "MY_USER" {
   type    = string
-  default = "${env("USER")}"
+  default = "${ env("USER") }"
 }
 
 variable "aws_regions" {
