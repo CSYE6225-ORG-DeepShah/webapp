@@ -20,9 +20,11 @@ app.use((req,res,next) => {
     // if (req.method === 'GET' && req.headers['content-length'] && parseInt(req.headers['content-length']) > 0) {
     //     return res.status(400).json();
     // }
+
     if(req.method === 'PATCH') {
         return res.status(405).json();
     }
+
 
     if (req.method === 'GET' && (Object.keys(req.query).length > 0 || req.headers['content-length'] || Object.keys(req.body).length > 0)) {
         // Return a 400 Bad Request if query parameters or request/response body are present
