@@ -125,8 +125,7 @@ source "amazon-ebs" "my-ami-debian12" {
   ami_name        = "${var.ami_name}${formatdate("YYYY_MM_DD_hh_mm_ss", timestamp())}"
   ami_description = "${var.ami_description}"
   ami_users       = ["${var.ami_devaccount}", "${var.ami_demoaccount}"]
-  ami_regions     = "${var.ami_regions}"
-
+  ami_regions =  "${var.ami_regions}"
 
   aws_polling {
     delay_seconds = "${var.delay_seconds}"
