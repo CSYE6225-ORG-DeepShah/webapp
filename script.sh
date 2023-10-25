@@ -28,10 +28,3 @@ sudo rm package-lock.json
 sudo npm install
 
 sudo npm install bcrypt@latest --save
-
-
-
-
-
-
-

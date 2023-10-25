@@ -6,6 +6,7 @@
     "scripts": {
         "test": "npx newman run ./test/collection.json --reporters cli,junit --reporter-junit-export integration_report.xml --insecure",
         "start": "nodemon server.js"
+
     },
     "keywords": [],
     "author": "",
