@@ -3,6 +3,8 @@ name: Webapp-CI
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [main]
 
 jobs:
   build:
@@ -42,26 +44,3 @@ jobs:
 
       - name: Run tests
         run: nohup npm start & npm test
-
-      - name: Zipping all files
-        run: zip -r webapp.zip .
-
-      - name: Install Packer
-        run: |
-          wget https://releases.hashicorp.com/packer/1.7.2/packer_1.7.2_linux_amd64.zip
-          unzip -j packer_1.7.2_linux_amd64.zip -d /tmp
-          chmod +x /tmp/packer
-          sudo mv /tmp/packer /usr/local/bin/
-          packer version
-
-      - name: Packer Intialization
-        run : packer init .
-
-      - name: Check format of the packer
-        run: packer fmt -check aws-ami.pkr.hcl
-
-      - name: Check validation of packer
-        run: packer validate -var 'MY_PASSWORD=${{ secrets.PASSWORD }}' -var 'MY_DATABASE=${{ secrets.DATABASE }}' -var 'MY_USER=${{ secrets.USER }}' -var-file="variables.pkrvars.hcl" aws-ami.pkr.hcl 
-
-#
-
