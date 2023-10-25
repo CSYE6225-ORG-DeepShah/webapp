@@ -1,0 +1,50 @@
+name: Validating Packer
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Packer
+        run: |
+          wget https://releases.hashicorp.com/packer/1.7.2/packer_1.7.2_linux_amd64.zip
+          unzip -j packer_1.7.2_linux_amd64.zip -d /tmp
+          chmod +x /tmp/packer
+          sudo mv /tmp/packer /usr/local/bin/
+          packer version
+
+      - name: create and configure
+        run: |
+          touch .env
+          echo pd=${{ secrets.PASSWORD }}>> .env
+          echo database=${{ secrets.DATABASE }} >> .env
+          echo user=${{ secrets.USER }} >> .env
+    
+      - name: create and configure
+        run: |
+            touch .env
+            echo port=${{ secrets.PORT }} >> .env
+            echo DB_HOST=${{ secrets.HOST }} >> .env
+            echo DB_DIALECT=${{ secrets.DIALECT }} >> .env
+            echo DB_USER=${{ secrets.USER }} >> .env
+            echo DB_PASSWORD=${{ secrets.PASSWORD }}>> .env
+            echo DB_NAME=${{ secrets.DATABASE }} >> .env
+
+      - name: Zipping all files
+        run: zip -r webapp.zip .
+
+      - name: Packer Intialization
+        run : packer init .
+
+      - name: Check format of the packer
+        run: packer fmt -check aws-ami.pkr.hcl
+
+      - name: Check validation of packer
+        run: packer validate -var 'MY_PASSWORD=${{ secrets.PASSWORD }}' -var 'MY_DATABASE=${{ secrets.DATABASE }}' -var 'MY_USER=${{ secrets.USER }}' -var-file="variables.pkrvars.hcl" aws-ami.pkr.hcl 
