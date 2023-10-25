@@ -26,6 +26,16 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 18
+      
+      - name: create and configure
+        run: |
+            touch .env
+            echo port=${{ secrets.PORT }} >> .env
+            echo DB_HOST=${{ secrets.HOST }} >> .env
+            echo DB_DIALECT=${{ secrets.DIALECT }} >> .env
+            echo DB_USER=${{ secrets.USER }} >> .env
+            echo DB_PASSWORD=${{ secrets.PASSWORD }}>> .env
+            echo DB_NAME=${{ secrets.DATABASE }} >> .env
 
       - name: Install dependencies
         run: npm install
@@ -54,3 +64,4 @@ jobs:
         run: packer validate -var 'MY_PASSWORD=${{ secrets.PASSWORD }}' -var 'MY_DATABASE=${{ secrets.DATABASE }}' -var 'MY_USER=${{ secrets.USER }}' -var-file="variables.pkrvars.hcl" aws-ami.pkr.hcl 
 
 #
+

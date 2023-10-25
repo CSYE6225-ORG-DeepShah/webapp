@@ -6,6 +6,8 @@ const assignmentRoute = require('./routes/assignmentRoutes');
 const healthRoute = require('./routes/healthRoutes');
 const bodyParser = require('body-parser');
 const Assignment = require('./models/Assignment');
+require('dotenv').config();
+
 
 
 const app = express();
@@ -13,14 +15,15 @@ const app = express();
 // Middleware: Parse incoming JSON requests
 app.use(bodyParser.json());
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
+
 
 app.use((req,res,next) => {
     
     // if (req.method === 'GET' && req.headers['content-length'] && parseInt(req.headers['content-length']) > 0) {
     //     return res.status(400).json();
     // }
-
+  
     if(req.method === 'PATCH') {
         return res.status(405).json();
     }
