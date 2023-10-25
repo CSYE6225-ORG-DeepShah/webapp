@@ -18,8 +18,3 @@ zip_file_dest = "/home/admin/webapp.zip"
 csv_file_src = "users.csv"
 csv_file_dest = "/home/admin/users.csv"
 #
-
-
-
-
-
