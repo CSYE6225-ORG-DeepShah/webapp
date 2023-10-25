@@ -10,7 +10,7 @@ sudo useradd -s /bin/false -g csye6225 -d /opt/csye6225 -m csye6225
 # sudo mkdir opt
 sudo mv /home/admin/webapp.zip /opt/csye6225/webapp.zip
 sudo mv /home/admin/users.csv /opt/csye6225/users.csv
-cd opt/csye6225
+cd /opt/csye6225
 sudo unzip -o webapp.zip
 sudo npm cache clean --force
 sudo npm install
