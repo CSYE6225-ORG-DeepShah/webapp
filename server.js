@@ -14,6 +14,7 @@ const app = express();
 // Middleware: Parse incoming JSON requests
 app.use(bodyParser.json());
 
+
 const PORT = process.env.PORT || 8080;
 
 app.use((req,res,next) => {
@@ -21,6 +22,7 @@ app.use((req,res,next) => {
     // if (req.method === 'GET' && req.headers['content-length'] && parseInt(req.headers['content-length']) > 0) {
     //     return res.status(400).json();
     // }
+
     if(req.method === 'PATCH') {
         return res.status(405).json();
     }
