@@ -119,6 +119,16 @@ variable "csv_file_dest" {
   default = null
 }
 
+variable "service_file_src" {
+  type    = string
+  default = null
+}
+
+variable "service_file_dest" {
+  type    = string
+  default = null
+}
+
 
 source "amazon-ebs" "my-ami-debian12" {
   region          = "${var.aws_regions}"
@@ -158,6 +168,11 @@ build {
   provisioner "file" {
     source      = "${var.csv_file_src}"
     destination = "${var.csv_file_dest}"
+  }
+
+  provisioner "file" {
+    source      = "${var.service_file_src}"
+    destination = "${var.service_file_dest}"
   }
 
   provisioner "shell" {
