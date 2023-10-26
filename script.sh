@@ -23,4 +23,3 @@ sudo cp /home/admin/csye6225.service /etc/systemd/system
 systemctl daemon-reload
 sudo systemctl enable csye6225.service
 sudo systemctl start csye6225.service
-#

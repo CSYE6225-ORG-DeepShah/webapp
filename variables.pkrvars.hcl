@@ -20,8 +20,3 @@ csv_file_dest = "/home/admin/users.csv"
 service_file_src = "csye6225.service"
 service_file_dest = "/home/admin/csye6225.service"
 #
-
-
-
-
-
