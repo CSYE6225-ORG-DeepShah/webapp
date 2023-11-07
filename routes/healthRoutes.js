@@ -1,5 +1,6 @@
 const express = require('express');
 const sequelize = require('../database/database');
+const count = require('../aws/cloudwatch');
 
 const router = express.Router();
 
