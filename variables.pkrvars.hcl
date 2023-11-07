@@ -19,4 +19,6 @@ csv_file_src = "users.csv"
 csv_file_dest = "/home/admin/users.csv"
 service_file_src = "csye6225.service"
 service_file_dest = "/home/admin/csye6225.service"
+cloudWatch_file_src = "amazon-cloudwatch-agent.json"
+cloudWatch_file_dest = "/home/admin/amazon-cloudwatch-agent.json"
 #

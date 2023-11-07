@@ -129,6 +129,16 @@ variable "service_file_dest" {
   default = null
 }
 
+variable "cloudWatch_file_src" {
+  type    = string
+  default = null
+}
+
+variable "cloudWatch_file_dest" {
+  type    = string
+  default = null
+}
+
 
 source "amazon-ebs" "my-ami-debian12" {
   region          = "${var.aws_regions}"
