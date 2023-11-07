@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 // Define a health check route to verify the database connection
-router.get('/healthz',  async (req,res) => {
+router.get('/healthz', count.incrementAPICallMetric('healthz'), async (req,res) => {
     try{
         await sequelize.authenticate();
         res.status(200).json();

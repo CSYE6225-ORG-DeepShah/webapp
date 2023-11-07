@@ -3,23 +3,24 @@ const sequelize = require('../database/database');
 const assignmentController = require('../controller/assignmentController');
 const authUser = require('../middleware/authMiddleware');
 const router = express.Router();
+const count = require('../aws/cloudwatch');
 
 // Authentication Route
 router.use(authUser);
 
 // Get all assignments
-router.get('/', assignmentController.getAllAssignment);
+router.get('/', count.incrementAPICallMetric('getAllAssignment'), assignmentController.getAllAssignment);
 
 // Get assignments By Id
-router.get('/:id', assignmentController.getAssignmentById);
+router.get('/:id', count.incrementAPICallMetric('getAssignmentById'), assignmentController.getAssignmentById);
 
 // Create a new assignment
-router.post('/', authUser, assignmentController.createAssignment);
+router.post('/', count.incrementAPICallMetric('createAssignment'), assignmentController.createAssignment);
 
 // Update an existing assignment
-router.put('/:id', assignmentController.updateAssignment);
+router.put('/:id', count.incrementAPICallMetric('updateAssignment'), assignmentController.updateAssignment);
 
 // Delete an existing assignment
-router.delete('/:id', assignmentController.deleteAssignment);
+router.delete('/:id', count.incrementAPICallMetric('deleteAssignment'), assignmentController.deleteAssignment);
 
 module.exports = router;
