@@ -7,7 +7,9 @@ const healthRoute = require('./routes/healthRoutes');
 const bodyParser = require('body-parser');
 const Assignment = require('./models/Assignment');
 require('dotenv').config();
-
+const morgan = require('morgan');
+const winston = require('winston');
+const WinstonCloudWatch = require('winston-cloudwatch');
 
 const app = express();
 
@@ -32,9 +34,23 @@ app.use((req,res,next) => {
       }
 
     next(); 
+});
+
+// Setup Winston logger to send logs to CloudWatch Logs
+const logger = winston.createLogger({
+    transports: [
+        new winston.transports.Console(),
+        new WinstonCloudWatch({
+            logGroupName: 'csye6225',
+            logStreamName: 'webapp',
+            awsRegion: 'us-east-1',
+            level: 'info'
+        })
+    ]
 })
 
-
+// Morgan for HTTP request logging
+app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }));
 
 app.use('/', healthRoute);
 app.use('/v1/assignments', assignmentRoute);
