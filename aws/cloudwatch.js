@@ -24,7 +24,7 @@ const incrementAPICallMetric = (apiName) => async (req, res, next) => {
           Value: count,
         },
       ],
-      Namespace: 'YourNamespace', 
+      Namespace: 'Webapp Metrics', 
     }, (err, data) => {
       if (err) {
         console.error(err);
