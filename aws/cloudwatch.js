@@ -29,8 +29,7 @@ const incrementAPICallMetric = (apiName) => async (req, res, next) => {
       if (err) {
         console.error(err);
       } else {
-        console.log(`Custom metric updated for ${apiName}`);
-        console.log(count);
+        console.log(`Metric metric updated for ${apiName}: ${count}`);
       }
     });
   
