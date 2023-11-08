@@ -185,16 +185,6 @@ build {
     destination = "${var.service_file_dest}"
   }
 
-  variable "cloudWatch_file_src" {
-    type    = string
-    default = null
-  }
-
-  variable "cloudWatch_file_dest" {
-    type    = string
-    default = null
-  }
-
   provisioner "shell" {
     environment_vars = [
       "DEBIAN_FRONTEND=noninteractive",
