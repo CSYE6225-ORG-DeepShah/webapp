@@ -22,3 +22,4 @@ service_file_dest = "/home/admin/csye6225.service"
 cloudWatch_file_src = "amazon-cloudwatch-agent.json"
 cloudWatch_file_dest = "/home/admin/amazon-cloudwatch-agent.json"
 #
+#
