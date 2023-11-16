@@ -18,7 +18,6 @@ const createAssignment = async (req, res) => {
     const assignment = await Assignment.create({ name, points, no_of_attempts, deadline, userId: authUser.userID});
 
     res.status(201).json(assignment);
-    console.log(assignment);
   } catch (err) {
     if(err.name === 'SequelizeValidationError') {
       res.status(400).json({ error: 'Validation error' });
