@@ -11,9 +11,11 @@ const Assignment = sequelize.define('assignment', {
     },
     name: {
         type: DataTypes.STRING,
+        allowNull: false,
     },
     points: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         validate: {
             min: 1,
             max: 10,
@@ -21,6 +23,7 @@ const Assignment = sequelize.define('assignment', {
     },
     no_of_attempts: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         validate: {
             min: 1,
             max: 3,
@@ -28,6 +31,7 @@ const Assignment = sequelize.define('assignment', {
     },
     deadline: {
         type: DataTypes.DATE,
+        allowNull: false,
     },
 }, {
     freezeTableName: true,
