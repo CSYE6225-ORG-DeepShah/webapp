@@ -3,13 +3,22 @@ const { loadCSVDataAndCreateUsers } = require('./controller/userController');
 const sequelize = require('./database/database');
 const User = require('./models/User');
 const assignmentRoute = require('./routes/assignmentRoutes');
+const submissionRoute = require('./routes/submissionRoutes');
 const healthRoute = require('./routes/healthRoutes');
 const bodyParser = require('body-parser');
 const Assignment = require('./models/Assignment');
+const Submission = require('./models/Submission');
 require('dotenv').config();
 const morgan = require('morgan');
 const winston = require('winston');
 const WinstonCloudWatch = require('winston-cloudwatch');
+const StatsD = require('node-statsd');
+
+const client = new StatsD({
+    port: 8125,
+    host: '127.0.0.1'
+});
+
 
 const app = express();
 
@@ -54,6 +63,7 @@ app.use(morgan('combined', { stream: { write: message => logger.info(message.tri
 
 app.use('/', healthRoute);
 app.use('/v1/assignments', assignmentRoute);
+app.use('/v1/assignments', submissionRoute);
 
 // Define a relationship between the User and Assignment models
 User.hasMany(Assignment, { as: 'assignment' });
@@ -62,9 +72,15 @@ Assignment.belongsTo(User, {
     as: 'user',
 })
 
+// Define a relationship between the User and Assignment models
+Assignment.hasMany(Submission, { as: 'submission' });
+Submission.belongsTo(Assignment, {
+    foreignKey: 'assignmentId',
+    as: 'assignment',
+})
+
 // Sync the Sequelize database and start the server
 sequelize.sync().then((result) => {
-    console.log(result);
     loadCSVDataAndCreateUsers();
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);

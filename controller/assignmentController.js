@@ -1,7 +1,14 @@
 const Assignment = require('../models/Assignment');
+const StatsD = require('node-statsd');
+
+const client = new StatsD({
+    port: 8125,
+    host: '127.0.0.1'
+});
 
 // Controller function to create a new assignment
 const createAssignment = async (req, res) => {
+  client.increment('createAssignment');
   try {
     const authUser = req.user;
 
@@ -13,15 +20,24 @@ const createAssignment = async (req, res) => {
       return res.status(400).json({ error: "Invalid fields in request body", unexpectedFields });
     }
 
+    const missingFields = allowedFields.filter(field => !(field in req.body));
+    if (missingFields.length > 0) {
+      return res.status(400).json({ error: "Missing mandatory fields in request body", missingFields });
+    }
+
     const { name, points, no_of_attempts, deadline } = req.body;
 
-    const assignment = await Assignment.create({ name, points, no_of_attempts, deadline, userId: authUser.userID});
+    // Additional check for integer values
+    if (!Number.isInteger(points) || !Number.isInteger(no_of_attempts)) {
+      return res.status(400).json({ error: "Points and no_of_attempts must be integers" });
+    }
+
+    const assignment = await Assignment.create({ name, points, no_of_attempts, deadline, userId: authUser.userID });
 
     res.status(201).json(assignment);
-    console.log(assignment);
   } catch (err) {
     if(err.name === 'SequelizeValidationError') {
-      res.status(400).json({ error: 'Validation error' });
+      res.status(400).json({ error: 'Validation error', details: err.errors.map(e => e.message) });
     } else {
       res.status(500).json({ error: 'Error creating assignment' });
     }
@@ -30,6 +46,7 @@ const createAssignment = async (req, res) => {
 
 // Controller function to get all assignments belonging to the authenticated user
 const getAllAssignment = async (req, res) => {
+  client.increment('getAllAssignment');
   try {
     const authUserId = req.user.id;
 
@@ -49,6 +66,7 @@ const getAllAssignment = async (req, res) => {
 
 // Controller function to get an assignment by its ID
 const getAssignmentById = async (req, res) => {
+  client.increment('getAssignmentById');
   try{
     const authUser = req.user;
 
@@ -70,6 +88,7 @@ const getAssignmentById = async (req, res) => {
 
 // Controller function to update an assignment by its ID
 const updateAssignment = async (req, res) => {
+  client.increment('updateAssignment');
     try{
       const authUser = req.user;
 
@@ -80,6 +99,11 @@ const updateAssignment = async (req, res) => {
 
       if(assignment.userId !== authUser.userID) {
         return res.status(403).json({ error: 'Access Forbidden '});
+      }
+
+      // Check if the request body is empty
+      if (Object.keys(req.body).length === 0) {
+        return res.status(400).json({ error: 'Request body cannot be empty' });
       }
 
       // Update the assignment with the provided data
@@ -113,8 +137,14 @@ const updateAssignment = async (req, res) => {
 
 // Controller function to delete an assignment by its ID
 const deleteAssignment = async (req, res) => {
+  client.increment('deleteAssignment');
   try {
     const authUser = req.user;
+
+    // Check if the request contains a body, and if so, reject the request
+    if (Object.keys(req.body).length > 0) {
+      return res.status(400).json({ error: 'DELETE request should not contain a body' });
+    }
 
     const assignment = await Assignment.findByPk(req.params.id);
 

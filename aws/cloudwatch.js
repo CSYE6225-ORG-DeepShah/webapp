@@ -1,39 +1,10 @@
 const AWS = require('aws-sdk');
+const { SNSClient } = require('@aws-sdk/client-sns');
+
 
 // Initialize AWS SDK
 AWS.config.update({ region: 'us-east-1' });
 const cloudWatchLogs = new AWS.CloudWatchLogs();
+const snsClient = new SNSClient({ region: 'us-east-1' });
 
-let count = 0;
-
-const cloudwatch = new AWS.CloudWatch();
-const incrementAPICallMetric = (apiName) => async (req, res, next) => {
-    count++;
-
-    cloudwatch.putMetricData({
-      MetricData: [
-        {
-          MetricName: 'APICalls',
-          Dimensions: [
-            {
-              Name: 'APIName',
-              Value: apiName,
-            },
-          ],
-          Unit: 'Count',
-          Value: count,
-        },
-      ],
-      Namespace: 'Webapp Metrics', 
-    }, (err, data) => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log(`Metric metric updated for ${apiName}: ${count}`);
-      }
-    });
-  
-    next();
-  };
-
-module.exports = { cloudWatchLogs, incrementAPICallMetric };
+module.exports = { cloudWatchLogs, snsClient };

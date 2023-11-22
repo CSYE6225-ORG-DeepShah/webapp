@@ -13,8 +13,6 @@ const basicAuth = async (req, res, next) => {
     const base64Credentials =  req.headers.authorization.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [email, password ] = credentials.split(':');
-    console.log('User Email:', email);
-    console.log('User Password', password);
 
     const user = await User.findOne({where: { email: email }});
 
