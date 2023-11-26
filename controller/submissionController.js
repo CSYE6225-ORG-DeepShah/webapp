@@ -50,7 +50,6 @@ const submitAssignment = async(req, res) => {
             assignmentId,
             submission_url
         });
-        console.log("created");
     
         // Post the URL to the SNS topic along with user info
         const snsMessage = {
