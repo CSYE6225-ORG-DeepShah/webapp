@@ -14,7 +14,7 @@ const Submission = sequelize.define('submission', {
 }, {
     freezeTableName: true,
     createdAt: 'submission_date',
-    updatedAt: 'assignment_updated',
+    updatedAt: 'submission_updated',
 });
 
 module.exports = Submission;

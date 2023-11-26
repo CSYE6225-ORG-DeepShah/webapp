@@ -28,11 +28,6 @@ const submitAssignment = async(req, res) => {
             return res.status(404).json({ error: 'Assignment not found' });
         }
 
-        // Check if the user is allowed to submit
-        if (assignment.userId !== authUser.userID) {
-            return res.status(403).json({ error: 'Access Forbidden' });
-        }
-
         const submissionCount = await Submission.count({
             where: {
                 assignmentId,
@@ -48,23 +43,6 @@ const submitAssignment = async(req, res) => {
             return res.status(400).json({ error: 'Submission deadline has passed' });
         }
 
-        // Check if the assignment has already been submitted
-        const existingSubmission = await Submission.findOne({
-            where: {
-                assignmentId,
-            }
-        });
-
-        if (existingSubmission) {
-            // Update the existing submission with the new URL
-            await existingSubmission.update({
-                submission_url: req.body.submission_url,
-            });
-
-            // You can choose to send a notification or perform other actions here
-            return res.status(204).json();
-        }
-
         const { submission_url } = req.body;
 
         // Create a new submission
@@ -73,7 +51,7 @@ const submitAssignment = async(req, res) => {
             submission_url
         });
         console.log("created");
-        
+    
         // Post the URL to the SNS topic along with user info
         const snsMessage = {
             email: authUser.email,
@@ -90,7 +68,6 @@ const submitAssignment = async(req, res) => {
         res.status(201).json(submission);
 
     } catch (err) {
-        console.error('Error publishing to SNS:', err);
         if(err.name === 'SequelizeValidationError') {
             res.status(400).json({ error: 'Validation error', details: err.errors.map(e => e.message) });
         } else {
