@@ -45,16 +45,20 @@ const submitAssignment = async(req, res) => {
 
         const { submission_url } = req.body;
 
-        // Create a new submission
-        const submission = await Submission.create({ 
-            assignmentId,
-            submission_url
-        });
+        // Validate the URL format
+        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+
+        if (!urlRegex.test(submission_url)) {
+            return res.status(400).json({ error: 'Invalid URL format' });
+        }
+
     
         // Post the URL to the SNS topic along with user info
         const snsMessage = {
             email: authUser.email,
             submissionUrl: submission_url,
+            assignmentID: assignmentId,
+            attempts: submissionCount + 1
         };
 
         await snsClient.send(
