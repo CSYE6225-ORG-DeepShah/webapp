@@ -63,7 +63,8 @@ const submitAssignment = async(req, res) => {
             email: authUser.email,
             submissionUrl: submission_url,
             assignmentID: assignmentId,
-            attempts: submissionCount + 1
+            attempts: submissionCount+1,
+            assignmentName: assignment.name,
         };
 
         await snsClient.send(
