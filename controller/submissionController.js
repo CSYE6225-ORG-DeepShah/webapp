@@ -52,11 +52,6 @@ const submitAssignment = async(req, res) => {
             return res.status(400).json({ error: 'Invalid URL format' });
         }
 
-        // Create a new submission
-        const submission = await Submission.create({ 
-            assignmentId,
-            submission_url
-        });
     
         // Post the URL to the SNS topic along with user info
         const snsMessage = {
