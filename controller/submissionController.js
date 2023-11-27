@@ -62,10 +62,9 @@ const submitAssignment = async(req, res) => {
         const snsMessage = {
             email: authUser.email,
             submissionUrl: submission_url,
-            assignmentID: assignmentId,
-            attempts: submissionCount+1,
-            assignmentName: assignment.name,
         };
+
+        res.status(201).json(submission);
 
         await snsClient.send(
             new PublishCommand({
@@ -73,8 +72,6 @@ const submitAssignment = async(req, res) => {
               TopicArn: process.env.SNS_TOPIC_ARN,
             }),
         );
-
-        res.status(201).json(submission);
 
     } catch (err) {
         if(err.name === 'SequelizeValidationError') {
