@@ -63,6 +63,8 @@ const submitAssignment = async(req, res) => {
         // Post the URL to the SNS topic along with user info
         const snsMessage = {
             email: authUser.email,
+            firstName: authUser.first_name,
+            lastName: authUser.last_name,
             submissionUrl: submission_url,
             assignmentID: assignmentId,
             attempts: submissionCount+1,
