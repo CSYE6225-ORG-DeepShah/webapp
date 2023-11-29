@@ -79,6 +79,11 @@ Submission.belongsTo(Assignment, {
     as: 'assignment',
 })
 
+Submission.belongsTo(User, {
+    foreignKey: 'userId',
+    as: 'user',
+})
+
 // Sync the Sequelize database and start the server
 sequelize.sync().then((result) => {
     loadCSVDataAndCreateUsers();
