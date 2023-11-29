@@ -31,6 +31,7 @@ const submitAssignment = async(req, res) => {
         const submissionCount = await Submission.count({
             where: {
                 assignmentId,
+                userId: authUser.userID,
             }
         })
 
@@ -55,7 +56,8 @@ const submitAssignment = async(req, res) => {
         // Create a new submission
         const submission = await Submission.create({ 
             assignmentId,
-            submission_url
+            submission_url,
+            userId: authUser.userID,
         });
     
         // Post the URL to the SNS topic along with user info
