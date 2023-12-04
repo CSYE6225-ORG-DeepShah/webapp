@@ -63,15 +63,21 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEMO_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          aws autoscaling start-instance-refresh --auto-scaling-group-name auto-scaling-group
-          echo "Instance refresh for Launch template ID in AS completed"
+          INSTANCE_REFRESH_ID=$(aws autoscaling start-instance-refresh --auto-scaling-group-name auto-scaling-group --query 'InstanceRefreshId' --output text)
+          echo "Instance refresh for Launch template ID in AS started with ID: ${INSTANCE_REFRESH_ID}"
 
-      # - name: Waiting for the Instance refresh to complete
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEMO_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEMO_SECRET_ACCESS_KEY }}
-      #     AWS_REGION: ${{ secrets.AWS_REGION }}
-      #   run: |
-      #     aws autoscaling describe-instance-refreshes --auto-scaling-group-name auto-scaling-group
-      #     echo "Instance refresh for Launch template ID in AS completed"
+          # Wait for the instance refresh to complete
+          while true; do
+            STATUS=$(aws autoscaling describe-instance-refresh --instance-refresh-id $INSTANCE_REFRESH_ID --query 'Status' --output text)
+            if [ "$STATUS" == "Successful" ]; then
+              echo "Instance refresh for Launch template ID in AS completed successfully."
+              break
+            elif [ "$STATUS" == "Failed" ]; then
+              echo "Instance refresh for Launch template ID in AS failed."
+              exit 1
+            else
+              echo "Waiting for instance refresh to complete. Current status: $STATUS"
+              sleep 60  # Adjust the sleep interval as needed
+            fi
+          done
 #
