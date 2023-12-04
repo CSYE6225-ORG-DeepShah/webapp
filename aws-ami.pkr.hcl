@@ -170,6 +170,11 @@ build {
     "source.amazon-ebs.my-ami-debian12"
   ]
 
+  post-processor "manifest" {
+    output     = "manifest.json"
+    strip_path = true
+  }
+
   provisioner "file" {
     source      = "${var.zip_file_src}"
     destination = "${var.zip_file_dest}"
