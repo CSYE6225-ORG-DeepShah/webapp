@@ -62,8 +62,8 @@ const logger = winston.createLogger({
 app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }));
 
 app.use('/', healthRoute);
-app.use('/v2/assignments', assignmentRoute);
-app.use('/v2/assignments', submissionRoute);
+app.use('/v1/assignments', assignmentRoute);
+app.use('/v1/assignments', submissionRoute);
 
 // Define a relationship between the User and Assignment models
 User.hasMany(Assignment, { as: 'assignment' });
