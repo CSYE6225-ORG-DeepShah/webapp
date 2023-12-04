@@ -171,7 +171,7 @@ build {
   ]
 
   post-processor "manifest" {
-    output = "manifest.json"
+    output     = "manifest.json"
     strip_path = true
   }
 
