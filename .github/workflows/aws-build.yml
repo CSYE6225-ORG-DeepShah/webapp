@@ -55,7 +55,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEMO_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          aws ec2 create-launch-template-version --launch-template-name ec2LT --source-version 1 --launch-template-data '{"ImageId":"${{ env.AMI_ID }}"}'
+          aws ec2 create-launch-template-version --launch-template-name ec2LT --source-version 1 --launch-template-data '{"ImageId":"'"${{ env.AMI_ID }}"'"}'
           echo "Launch template ID completed"
 
       - name: Instance refresh auto scale to use new launch template version
