@@ -45,8 +45,7 @@ jobs:
 
       - name: Retrive AMI ID
         run: |
-          AMI_ID=$(jq -r '.builds[-1].artifact_id' ./manifest.json | cut -d ":" -f2) 
-          echo $AMI_ID >> $GITHUB_ENV
+          echo AMI_ID=$(jq -r '.builds[-1].artifact_id' ./manifest.json | cut -d ":" -f2) >> $GITHUB_ENV
         shell: bash
 
       - name: Create Version of Launch Template
@@ -55,9 +54,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEMO_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          aws ec2 create-launch-template-version --launch-template-name ec2LT --source-version 1 --launch-template-data '{"ImageId":"'"${{ env.AMI_ID }}"'"}'
+          aws ec2 create-launch-template-version --launch-template-name ec2LT --source-version 1 --launch-template-data '{"ImageId":"${{ env.AMI_ID }}"}'
           echo "Launch template ID completed"
-
+          
       - name: Instance refresh auto scale to use new launch template version
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEMO_ACCESS_KEY_ID }}
