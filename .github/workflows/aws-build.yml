@@ -68,7 +68,7 @@ jobs:
 
           # Wait for the instance refresh to complete
           while true; do
-            STATUS=$(aws autoscaling describe-instance-refresh --instance-refresh-id $INSTANCE_REFRESH_ID --query 'Status' --output text)
+            STATUS=$(aws autoscaling describe-instance-refresh --instance-refresh-id ${INSTANCE_REFRESH_ID} --query 'Status' --output text)
             if [ "$STATUS" == "Successful" ]; then
               echo "Instance refresh for Launch template ID in AS completed successfully."
               break
