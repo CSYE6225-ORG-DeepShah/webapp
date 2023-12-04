@@ -45,8 +45,8 @@ jobs:
 
       - name: Retrive AMI ID
         run: |
-          AMI_ID=$(jq -r '.builds[-1].artifact_id' ./manifest.json | cut -d ":" -f2) >> $GITHUB_ENV
-          echo $AMI_ID
+          AMI_ID=$(jq -r '.builds[-1].artifact_id' ./manifest.json | cut -d ":" -f2) 
+          echo $AMI_ID >> $GITHUB_ENV
         shell: bash
 
       - name: Create Version of Launch Template
