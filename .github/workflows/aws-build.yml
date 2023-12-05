@@ -43,12 +43,12 @@ jobs:
       - name: Check build of packer
         run: packer build -var 'MY_PASSWORD=${{ secrets.PASSWORD }}' -var 'MY_DATABASE=${{ secrets.DATABASE }}' -var 'MY_USER=${{ secrets.USER }}' -var-file="variables.pkrvars.hcl" aws-ami.pkr.hcl
 
-      - name: Retrive AMI ID
+      - name: Getting the latest AMI ID
         run: |
           echo AMI_ID=$(jq -r '.builds[-1].artifact_id' ./manifest.json | cut -d ":" -f2) >> $GITHUB_ENV
         shell: bash
 
-      - name: Create Version of Launch Template
+      - name: Creating a new version of the Launch Template
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEMO_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEMO_SECRET_ACCESS_KEY }}
@@ -57,7 +57,7 @@ jobs:
           aws ec2 create-launch-template-version --launch-template-name ec2LT --source-version 1 --launch-template-data '{"ImageId":"${{ env.AMI_ID }}"}'
           echo "Launch template ID completed"
 
-      - name: Instance refresh auto scale to use new launch template version
+      - name: Instance Refresh for auto scale using the new Launch Template
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEMO_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEMO_SECRET_ACCESS_KEY }}
@@ -69,7 +69,7 @@ jobs:
           # Wait for the instance refresh to complete
           while true; do
             STATUS=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name auto-scaling-group --instance-refresh-ids ${INSTANCE_REFRESH_ID} --query 'InstanceRefreshes[0].Status' --output text)
-            if [ "$STATUS" == "Successful" ]; then
+            if [ "$STATUS" == "Successful" ] || [ "$STATUS" == "Cancelled" ]; then
               echo "Instance refresh for Launch template ID in AS completed successfully."
               break
             elif [ "$STATUS" == "Failed" ]; then
