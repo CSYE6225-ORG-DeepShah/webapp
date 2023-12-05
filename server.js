@@ -63,8 +63,8 @@ app.use(morgan('combined', { stream: { write: message => logger.info(message.tri
 
 app.use('/', healthRoute);
 
-app.use('/v1/assignments', assignmentRoute);
-app.use('/v1/assignments', submissionRoute);
+app.use('/demo/assignments', assignmentRoute);
+app.use('/demo/assignments', submissionRoute);
 
 // Define a relationship between the User and Assignment models
 User.hasMany(Assignment, { as: 'assignment' });
