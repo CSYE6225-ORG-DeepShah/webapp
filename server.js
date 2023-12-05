@@ -62,6 +62,7 @@ const logger = winston.createLogger({
 app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }));
 
 app.use('/', healthRoute);
+
 app.use('/v1/assignments', assignmentRoute);
 app.use('/v1/assignments', submissionRoute);
 

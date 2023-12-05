@@ -1,5 +1,8 @@
 # webapp
 
+## Command to Import the Certificate to AWS.
+aws acm import-certificate --certificate fileb://certificate.pem --certificate-chain fileb://certificate-chain.pem --private-key fileb://privateKey.pem
+
 ## Run application locally
 1. Install node.js in your local machine.
    Use npm install -g npm
