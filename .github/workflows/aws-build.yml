@@ -54,7 +54,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEMO_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          aws ec2 create-launch-template-version --launch-template-name ec2LT --source-version 1 --launch-template-data '{"ImageId":"${{ env.AMI_ID }}"}'
+          aws ec2 create-launch-template-version --launch-template-name ec2LaunchTemplate-33bfcdb --source-version 1 --launch-template-data '{"ImageId":"${{ env.AMI_ID }}"}'
           echo "Launch template ID completed"
 
       - name: Instance Refresh for auto scale using the new Launch Template
@@ -63,7 +63,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEMO_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          INSTANCE_REFRESH_ID=$(aws autoscaling start-instance-refresh --auto-scaling-group-name auto-scaling-group --query 'InstanceRefreshId' --output text)
+          INSTANCE_REFRESH_ID=$(aws autoscaling start-instance-refresh --auto-scaling-group-name autoScalingGroup-6a4b995 --query 'InstanceRefreshId' --output text)
           echo "Instance refresh for Launch template ID in AS started with ID: ${INSTANCE_REFRESH_ID}"
 
           # Wait for the instance refresh to complete
