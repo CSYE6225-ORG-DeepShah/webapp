@@ -73,7 +73,7 @@ jobs:
               echo "Instance refresh for Launch template ID in AS completed successfully."
               break
             elif [ "$STATUS" == "Cancelled" ]; then
-              echo "Instance refresh for Launch template ID in AS failed."
+              echo "Instance refresh for Launch template ID in AS Cancelled."
               exit 1
             elif [ "$STATUS" == "Failed" ]; then
               echo "Instance refresh for Launch template ID in AS failed."
