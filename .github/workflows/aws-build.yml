@@ -69,9 +69,12 @@ jobs:
           # Wait for the instance refresh to complete
           while true; do
             STATUS=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name auto-scaling-group --instance-refresh-ids ${INSTANCE_REFRESH_ID} --query 'InstanceRefreshes[0].Status' --output text)
-            if [ "$STATUS" == "Successful" ] || [ "$STATUS" == "Cancelled" ]; then
+            if [ "$STATUS" == "Successful" ]; then
               echo "Instance refresh for Launch template ID in AS completed successfully."
               break
+            elif [ "$STATUS" == "Cancelled" ]; then
+              echo "Instance refresh for Launch template ID in AS failed."
+              exit 1
             elif [ "$STATUS" == "Failed" ]; then
               echo "Instance refresh for Launch template ID in AS failed."
               exit 1
